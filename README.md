@@ -1,6 +1,6 @@
 # Influencer Flow MCP Server
 
-> Control your Influencer Flow bots via Claude Code, Cursor, VS Code, Windsurf, und andere MCP-kompatible IDEs mit dem Model Context Protocol (MCP)
+> Control your Influencer Flow bots via Claude Code, Cursor, VS Code, Windsurf, and other MCP-compatible IDEs using the Model Context Protocol (MCP)
 
 ## IDE & Client Compatibility
 
@@ -8,7 +8,7 @@ The Influencer Flow MCP Server works with any MCP-compatible client:
 
 | Client | Support | Notes |
 |--------|---------|-------|
-| **Claude Code** | ✅ Full Support | Direct SSE connection |
+| **Claude Code** | ✅ Full Support | Remote HTTP connection |
 | **Cursor** | ✅ Full Support | Add to Settings → MCP |
 | **VS Code (Cline)** | ✅ Full Support | Popular VS Code extension |
 | **Windsurf** | ✅ Full Support | AI-powered IDE by Codeium |
@@ -23,6 +23,7 @@ The Influencer Flow MCP Server works with any MCP-compatible client:
 - **Bot Management**: Create, list, update, delete, start, and stop bots
 - **Widget Management**: Create widgets and get embed codes
 - **Profile & Billing**: View your profile, credits, and billing info
+- **Analytics**: Track credit usage, API calls, and costs
 - **TypeScript**: Full type safety and autocompletion
 
 ## Requirements
@@ -31,91 +32,35 @@ The Influencer Flow MCP Server works with any MCP-compatible client:
 - Claude Code, Cursor, VS Code, Windsurf, OpenClaw (or any MCP-compatible client)
 - Influencer Flow account with API access
 
-## Installation
+## Quick Start
 
-### Option 1: Direktverbindung (EMPFOHLEN) ⚡
+### Step 1: Get Your API Token
 
-Der einfachste Weg - verbinde dich direkt mit dem Influencer Flow Server:
-
-1. Generiere einen Token in deinem Dashboard unter **Settings → API Keys**
-2. Füge dies zu deiner `.mcp.json` hinzu:
-
-```json
-{
-  "mcpServers": {
-    "influencer-flow": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sse", "--url", "https://api.influencer-flow.com/mcp"],
-      "env": {
-        "INFLUENCER_FLOW_AUTH_TOKEN": "DEIN_TOKEN"
-      }
-    }
-  }
-}
-```
-
-### Option 2: Lokal hosten (Fortgeschritten)
-
-Für Fortgeschrittene die ihren eigenen Server betreiben wollen:
-
-```bash
-# Repository klonen
-git clone https://github.com/Milos821/influencer-flow-mcp-server.git
-cd influencer-flow-mcp-server
-
-# Dependencies installieren
-npm install
-
-# Bauen
-npm run build
-
-# Starten
-npm start
-```
-
-## Configuration
-
-### 1. Get your Auth Token
-
-1. Log in to your [Influencer Flow Dashboard](https://influencer-flow.com)
+1. Log in to your [Influencer Flow Dashboard](https://dashboard.influencer-flow.com)
 2. Go to **Settings** → **API Keys**
 3. Click **Generate Token**
-4. Copy your authentication token
+4. Copy your token (starts with `mcp_`)
 
-### 2. Configure Environment
+### Step 2: Configure Your MCP Client
 
-Create a `.env` file:
-
-```bash
-INFLUENCER_FLOW_API_URL=https://api.influencer-flow.com
-INFLUENCER_FLOW_AUTH_TOKEN=your_token_here
-```
-
-Or set environment variables:
-
-```bash
-export INFLUENCER_FLOW_API_URL=https://api.influencer-flow.com
-export INFLUENCER_FLOW_AUTH_TOKEN=your_token_here
-```
-
-### 3. Add to Claude Code
-
-Add to your `.mcp.json`:
+Add this to your project's `.mcp.json` file:
 
 ```json
 {
   "mcpServers": {
     "influencer-flow": {
-      "command": "npx",
-      "args": ["-y", "@milos821/influencer-flow-mcp-server"],
+      "url": "https://influencer-flow.com/mcp",
       "env": {
-        "INFLUENCER_FLOW_API_URL": "https://api.influencer-flow.com",
-        "INFLUENCER_FLOW_AUTH_TOKEN": "your_token_here"
+        "INFLUENCER_FLOW_AUTH_TOKEN": "mcp_your_token_here"
       }
     }
   }
 }
 ```
+
+### Step 3: Restart Your IDE
+
+Restart Claude Code or your IDE to load the new MCP server.
 
 ## Available Tools
 
@@ -161,22 +106,13 @@ Add to your `.mcp.json`:
 
 ## Usage Examples
 
-### Create a new bot
-
-```
-User: Create a flirty bot named Luna in German
-
-Claude: (calls create_bot tool)
-→ Creates bot "Luna" with personality "flirty", language "de"
-```
-
 ### List all bots
 
 ```
 User: Show me all my bots
 
 Claude: (calls list_bots tool)
-→ Returns list of all your bots
+→ Returns list of all your bots with status
 ```
 
 ### Get credit balance
@@ -188,6 +124,15 @@ Claude: (calls get_credits tool)
 → "You have 150 credits (100 subscription + 50 purchased)"
 ```
 
+### Create a bot
+
+```
+User: Create a flirty bot named Luna in German
+
+Claude: (calls create_bot tool)
+→ Creates bot "Luna" with personality "flirty", language "de"
+```
+
 ### Create a widget
 
 ```
@@ -196,6 +141,21 @@ User: Create a dark theme widget for bot abc123
 Claude: (calls create_widget tool)
 → Creates widget with theme "dark", returns embed code
 ```
+
+## Troubleshooting
+
+**Connection Issues:**
+- Verify your token is correct and not expired
+- Check your internet connection
+- Ensure the API URL is correct: `https://influencer-flow.com/mcp`
+
+**Tools Not Showing:**
+- Restart Claude Code completely
+- Check that your `.mcp.json` is valid JSON
+- Verify the token has MCP scope
+
+**Authentication Errors:**
+- Token may have expired - generate a new one in Settings → API Keys
 
 ## Development
 
