@@ -7,7 +7,7 @@ Official MCP integration for Influencer Flow. Use it from Claude Code, Cursor, C
 - Exposes Influencer Flow operations as MCP tools.
 - Authenticates requests with your personal MCP token.
 - Works as a local stdio MCP server (`npx @milos821/influencer-flow-mcp-server`).
-- Can also be used with direct remote MCP HTTP connection to `https://influencer-flow.com/mcp`.
+- Can also be used with direct remote MCP HTTP connection to `https://influencer-flow.com/mcp/`.
 
 ## Requirements
 
@@ -29,7 +29,7 @@ Do not put the token only in `env` when using remote `url` servers. For remote M
 
 Use the hosted endpoint directly:
 
-`https://influencer-flow.com/mcp`
+`https://influencer-flow.com/mcp/`
 
 ### Option B: Local wrapper MCP server
 
@@ -51,7 +51,7 @@ This local server reads:
   "mcpServers": {
     "influencer-flow": {
       "type": "http",
-      "url": "https://influencer-flow.com/mcp",
+      "url": "https://influencer-flow.com/mcp/",
       "headers": {
         "Authorization": "Bearer YOUR_MCP_TOKEN"
       }
@@ -66,7 +66,7 @@ This local server reads:
 {
   "mcpServers": {
     "influencer-flow": {
-      "url": "https://influencer-flow.com/mcp",
+      "url": "https://influencer-flow.com/mcp/",
       "headers": {
         "Authorization": "Bearer YOUR_MCP_TOKEN"
       }
@@ -81,7 +81,7 @@ This local server reads:
 {
   "mcpServers": {
     "influencer-flow": {
-      "url": "https://influencer-flow.com/mcp",
+      "url": "https://influencer-flow.com/mcp/",
       "headers": {
         "Authorization": "Bearer YOUR_MCP_TOKEN"
       }
