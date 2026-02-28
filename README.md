@@ -2,14 +2,15 @@
 
 > Control your Influencer Flow bots via Claude Code, Cursor, VS Code, Windsurf, und andere MCP-kompatible IDEs mit dem Model Context Protocol (MCP)
 
-## IDE Kompatibilität
+## IDE & Client Kompatibilität
 
-| IDE | Support |
-|-----|---------|
+| Client | Support |
+|--------|---------|
 | **Claude Code** | ✅ Vollständig unterstützt |
 | **Cursor** | ✅ Vollständig unterstützt |
 | **VS Code (mit Copilot)** | ✅ Vollständig unterstützt |
 | **Windsurf** | ✅ Vollständig unterstützt |
+| **OpenClaw** | ✅ Vollständig unterstützt |
 | **Andere MCP-Clients** | ✅ Funktioniert mit jedem MCP-kompatiblen Client |
 
 ## Features
@@ -22,7 +23,7 @@
 ## Requirements
 
 - Node.js 18+
-- Claude Code (or any MCP-compatible client)
+- Claude Code, Cursor, VS Code, Windsurf, OpenClaw (or any MCP-compatible client)
 - Influencer Flow account with API access
 
 ## Installation
