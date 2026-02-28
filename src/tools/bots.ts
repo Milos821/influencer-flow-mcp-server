@@ -3,44 +3,21 @@
  */
 
 import { MCPServer } from './server.js';
-import type { Bot, CreateBotRequest, UpdateBotRequest } from './types.js';
+import type { Bot, CreateBotRequest, UpdateBotRequest } from '../types.js';
+import { requestJson } from '../http.js';
 
 /**
  * List all bots for the authenticated user
  */
 export async function listBots(server: MCPServer): Promise<Bot[]> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots`, {
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to fetch bots');
-  }
-
-  return response.json();
+  return requestJson<Bot[]>(server, '/api/v1/bots');
 }
 
 /**
  * Get a specific bot by ID
  */
 export async function getBot(server: MCPServer, botId: string): Promise<Bot> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}`, {
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to fetch bot');
-  }
-
-  return response.json();
+  return requestJson<Bot>(server, `/api/v1/bots/${botId}`);
 }
 
 /**
@@ -50,24 +27,18 @@ export async function createBot(
   server: MCPServer,
   request: CreateBotRequest
 ): Promise<{ bot_id: string; success: boolean }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots`, {
+  const result = await requestJson<{ instance_id?: string; id?: string }>(server, '/api/v1/bots', {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(request)
+    body: JSON.stringify(request),
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to create bot');
+  const botId = result.instance_id || result.id;
+  if (!botId) {
+    throw new Error('API response missing bot id');
   }
 
-  const result = await response.json();
   return {
-    bot_id: result.instance_id || result.id,
-    success: true
+    bot_id: botId,
+    success: true,
   };
 }
 
@@ -79,20 +50,10 @@ export async function updateBot(
   botId: string,
   request: UpdateBotRequest
 ): Promise<{ success: boolean }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}`, {
+  await requestJson<unknown>(server, `/api/v1/bots/${botId}`, {
     method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(request)
+    body: JSON.stringify(request),
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to update bot');
-  }
-
   return { success: true };
 }
 
@@ -103,19 +64,9 @@ export async function deleteBot(
   server: MCPServer,
   botId: string
 ): Promise<{ success: boolean }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}`, {
+  await requestJson<unknown>(server, `/api/v1/bots/${botId}`, {
     method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to delete bot');
-  }
-
   return { success: true };
 }
 
@@ -126,19 +77,9 @@ export async function startBot(
   server: MCPServer,
   botId: string
 ): Promise<{ success: boolean }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}/start`, {
+  await requestJson<unknown>(server, `/api/v1/bots/${botId}/start`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to start bot');
-  }
-
   return { success: true };
 }
 
@@ -149,19 +90,9 @@ export async function stopBot(
   server: MCPServer,
   botId: string
 ): Promise<{ success: boolean }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}/stop`, {
+  await requestJson<unknown>(server, `/api/v1/bots/${botId}/stop`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to stop bot');
-  }
-
   return { success: true };
 }
 
@@ -172,17 +103,5 @@ export async function getBotStatus(
   server: MCPServer,
   botId: string
 ): Promise<{ status: string; bot_id: string }> {
-  const response = await fetch(`${server.baseUrl}/api/v1/bots/${botId}/status`, {
-    headers: {
-      'Authorization': `Bearer ${server.authToken}`,
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Failed to fetch bot status');
-  }
-
-  return response.json();
+  return requestJson<{ status: string; bot_id: string }>(server, `/api/v1/bots/${botId}/status`);
 }

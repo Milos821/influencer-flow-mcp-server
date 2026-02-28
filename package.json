@@ -1,11 +1,11 @@
 {
   "name": "@milos821/influencer-flow-mcp-server",
   "version": "1.0.0",
-  "description": "Influencer Flow MCP Server - Control your bots via Claude Code, Cursor, VS Code und andere MCP-kompatible IDEs",
+  "description": "Official Influencer Flow MCP server for bot, widget, analytics, and billing operations from MCP-compatible clients",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "influencer-flow-mcp": "./dist/index.js"
+    "influencer-flow-mcp": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -37,6 +37,6 @@
     "node": ">=18.0.0"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "access": "public"
   }
 }

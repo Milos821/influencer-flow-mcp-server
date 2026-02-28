@@ -82,7 +82,7 @@ const UpdateWidgetConfigSchema = z.object({
 // SERVER IMPLEMENTATION
 // ============================================
 
-class InfluencerFlowMCPServer {
+export class InfluencerFlowMCPServer {
   private server: Server;
   private baseUrl: string;
   private authToken: string;
@@ -372,5 +372,7 @@ class InfluencerFlowMCPServer {
 // MAIN ENTRY POINT
 // ============================================
 
-const server = new SeductiveAIMCPServer();
-server.start().catch(console.error);
+export async function startServer(): Promise<void> {
+  const server = new InfluencerFlowMCPServer();
+  await server.start();
+}
