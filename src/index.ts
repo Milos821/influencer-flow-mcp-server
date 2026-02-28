@@ -5,7 +5,7 @@
  *   npx @milos821/influencer-flow-mcp-server
  *
  * Environment Variables:
- *   INFLUENCER_FLOW_API_URL - API Base URL (default: https://api.influencer-flow.com)
+ *   INFLUENCER_FLOW_API_URL - API Base URL (default: https://influencer-flow.com)
  *   INFLUENCER_FLOW_AUTH_TOKEN - User's authentication token (from dashboard)
  */
 

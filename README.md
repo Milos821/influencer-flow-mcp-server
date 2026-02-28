@@ -39,7 +39,7 @@ npx -y @milos821/influencer-flow-mcp-server
 
 This local server reads:
 
-- `INFLUENCER_FLOW_API_URL` (default: `https://api.influencer-flow.com`)
+- `INFLUENCER_FLOW_API_URL` (default: `https://influencer-flow.com`)
 - `INFLUENCER_FLOW_AUTH_TOKEN` (required)
 
 ## Client configuration examples
@@ -66,6 +66,7 @@ This local server reads:
 {
   "mcpServers": {
     "influencer-flow": {
+      "type": "http",
       "url": "https://influencer-flow.com/mcp/",
       "headers": {
         "Authorization": "Bearer YOUR_MCP_TOKEN"
@@ -81,6 +82,7 @@ This local server reads:
 {
   "mcpServers": {
     "influencer-flow": {
+      "type": "http",
       "url": "https://influencer-flow.com/mcp/",
       "headers": {
         "Authorization": "Bearer YOUR_MCP_TOKEN"
@@ -99,7 +101,7 @@ This local server reads:
       "command": "npx",
       "args": ["-y", "@milos821/influencer-flow-mcp-server"],
       "env": {
-        "INFLUENCER_FLOW_API_URL": "https://api.influencer-flow.com",
+        "INFLUENCER_FLOW_API_URL": "https://influencer-flow.com",
         "INFLUENCER_FLOW_AUTH_TOKEN": "YOUR_MCP_TOKEN"
       }
     }
@@ -150,6 +152,9 @@ npm run dev
 - Server does not start:
   - Ensure Node 18+.
   - Run `npm run build` locally and fix reported errors.
+- OpenClaw notes:
+  - OpenClaw is ACP-first (`openclaw acp`), not always native MCP JSON.
+  - If your OpenClaw build supports direct MCP JSON, use the same remote HTTP config as Cursor/Cline.
 
 ## License
 

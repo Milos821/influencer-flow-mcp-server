@@ -88,7 +88,7 @@ export class InfluencerFlowMCPServer {
   private authToken: string;
 
   constructor() {
-    this.baseUrl = process.env.INFLUENCER_FLOW_API_URL || 'https://api.influencer-flow.com';
+    this.baseUrl = process.env.INFLUENCER_FLOW_API_URL || 'https://influencer-flow.com';
     this.authToken = process.env.INFLUENCER_FLOW_AUTH_TOKEN || '';
 
     if (!this.authToken) {
@@ -119,7 +119,7 @@ export class InfluencerFlowMCPServer {
           // Bot Tools
           {
             name: 'list_bots',
-            description: 'Liste alle Bots des aktuellen Users auf',
+            description: 'List all bots for the authenticated user',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -127,86 +127,86 @@ export class InfluencerFlowMCPServer {
           },
           {
             name: 'get_bot',
-            description: 'Hole Details zu einem spezifischen Bot',
+            description: 'Get details for a specific bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'create_bot',
-            description: 'Erstelle einen neuen Bot mit den angegebenen Einstellungen',
+            description: 'Create a new bot with the provided settings',
             inputSchema: {
               type: 'object',
               properties: {
-                name: { type: 'string', description: 'Name des Bots (1-50 Zeichen)' },
-                personality: { type: 'string', description: 'Persönlichkeit: flirty, friendly, professional' },
-                language: { type: 'string', description: 'Sprache: en, de, es, fr, etc.' },
+                name: { type: 'string', description: 'Bot name (1-50 characters)' },
+                personality: { type: 'string', description: 'Personality: flirty, friendly, professional' },
+                language: { type: 'string', description: 'Language: en, de, es, fr, etc.' },
                 template: { type: 'string', description: 'Template: adult, general, support' },
-                system_prompt: { type: 'string', description: 'Benutzerdefinierter System Prompt' },
+                system_prompt: { type: 'string', description: 'Custom system prompt' },
               },
               required: ['name'],
             },
           },
           {
             name: 'update_bot',
-            description: 'Aktualisiere die Einstellungen eines Bots',
+            description: 'Update an existing bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
-                system_prompt: { type: 'string', description: 'Neuer System Prompt' },
-                voice_enabled: { type: 'boolean', description: 'Sprachausgabe aktivieren' },
-                widget_enabled: { type: 'boolean', description: 'Widget aktivieren' },
-                personality: { type: 'string', description: 'Neue Persönlichkeit' },
-                language: { type: 'string', description: 'Neue Sprache' },
+                bot_id: { type: 'string', description: 'Bot ID' },
+                system_prompt: { type: 'string', description: 'New system prompt' },
+                voice_enabled: { type: 'boolean', description: 'Enable voice output' },
+                widget_enabled: { type: 'boolean', description: 'Enable widget' },
+                personality: { type: 'string', description: 'New personality' },
+                language: { type: 'string', description: 'New language' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'delete_bot',
-            description: 'Lösche einen Bot',
+            description: 'Delete a bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'start_bot',
-            description: 'Starte einen Bot',
+            description: 'Start a bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'stop_bot',
-            description: 'Stoppe einen Bot',
+            description: 'Stop a bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'get_bot_status',
-            description: 'Gib den Status eines Bots zurück',
+            description: 'Get the current bot status',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
@@ -215,39 +215,39 @@ export class InfluencerFlowMCPServer {
           // Widget Tools
           {
             name: 'list_widgets',
-            description: 'Liste alle Widgets für einen Bot auf',
+            description: 'List all widgets for a bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
+                bot_id: { type: 'string', description: 'Bot ID' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'create_widget',
-            description: 'Erstelle ein neues Widget für einen Bot',
+            description: 'Create a new widget for a bot',
             inputSchema: {
               type: 'object',
               properties: {
-                bot_id: { type: 'string', description: 'Die ID des Bots' },
-                type: { type: 'string', enum: ['chat', 'video', 'voice'], description: 'Widget Typ' },
+                bot_id: { type: 'string', description: 'Bot ID' },
+                type: { type: 'string', enum: ['chat', 'video', 'voice'], description: 'Widget type' },
                 theme: { type: 'string', enum: ['light', 'dark'], description: 'Theme' },
-                primary_color: { type: 'string', description: 'Primärfarbe (Hex)' },
-                position: { type: 'string', enum: ['bottom-right', 'bottom-left', 'top-right', 'top-left'], description: 'Position' },
-                width: { type: 'string', description: 'Breite (z.B. "400px")' },
-                height: { type: 'string', description: 'Höhe (z.B. "600px")' },
+                primary_color: { type: 'string', description: 'Primary color (hex)' },
+                position: { type: 'string', enum: ['bottom-right', 'bottom-left', 'top-right', 'top-left'], description: 'Widget position' },
+                width: { type: 'string', description: 'Width (for example \"400px\")' },
+                height: { type: 'string', description: 'Height (for example \"600px\")' },
               },
               required: ['bot_id'],
             },
           },
           {
             name: 'get_widget_embed_code',
-            description: 'Hole den Embed-Code für ein Widget',
+            description: 'Get the embed code for a widget',
             inputSchema: {
               type: 'object',
               properties: {
-                widget_id: { type: 'string', description: 'Die ID des Widgets' },
+                widget_id: { type: 'string', description: 'Widget ID' },
               },
               required: ['widget_id'],
             },
@@ -256,7 +256,7 @@ export class InfluencerFlowMCPServer {
           // Profile Tools
           {
             name: 'get_profile',
-            description: 'Hole das User-Profil und die Credit-Balance',
+            description: 'Get user profile and credit balance',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -264,7 +264,7 @@ export class InfluencerFlowMCPServer {
           },
           {
             name: 'get_credits',
-            description: 'Hole die Credit-Balance',
+            description: 'Get credit balances',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -272,7 +272,7 @@ export class InfluencerFlowMCPServer {
           },
           {
             name: 'get_billing',
-            description: 'Hole die Billing-Informationen',
+            description: 'Get billing information',
             inputSchema: {
               type: 'object',
               properties: {},
