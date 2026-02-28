@@ -2,16 +2,21 @@
 
 > Control your Influencer Flow bots via Claude Code, Cursor, VS Code, Windsurf, und andere MCP-kompatible IDEs mit dem Model Context Protocol (MCP)
 
-## IDE & Client Kompatibilität
+## IDE & Client Compatibility
 
-| Client | Support |
-|--------|---------|
-| **Claude Code** | ✅ Vollständig unterstützt |
-| **Cursor** | ✅ Vollständig unterstützt |
-| **VS Code (mit Copilot)** | ✅ Vollständig unterstützt |
-| **Windsurf** | ✅ Vollständig unterstützt |
-| **OpenClaw** | ✅ Vollständig unterstützt |
-| **Andere MCP-Clients** | ✅ Funktioniert mit jedem MCP-kompatiblen Client |
+The Influencer Flow MCP Server works with any MCP-compatible client:
+
+| Client | Support | Notes |
+|--------|---------|-------|
+| **Claude Code** | ✅ Full Support | Direct SSE connection |
+| **Cursor** | ✅ Full Support | Add to Settings → MCP |
+| **VS Code (Cline)** | ✅ Full Support | Popular VS Code extension |
+| **Windsurf** | ✅ Full Support | AI-powered IDE by Codeium |
+| **OpenClaw** | ✅ Full Support | Open source AI agent |
+| **Zed** | ✅ Full Support | High-performance editor |
+| **Gemini CLI** | ✅ Full Support | Google's CLI tool |
+| **Sourcegraph Cody** | ✅ Full Support | Enterprise-grade AI coding |
+| **Any MCP Client** | ✅ Full Support | Works with all MCP-compliant tools |
 
 ## Features
 
