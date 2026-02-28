@@ -139,6 +139,7 @@ Add to your `.mcp.json`:
 | `list_widgets` | List all widgets for a bot |
 | `create_widget` | Create a new widget |
 | `get_widget_embed_code` | Get embed code for a widget |
+| `get_widget_config` | Get widget configuration for bots |
 
 ### Profile & Billing
 
@@ -147,6 +148,16 @@ Add to your `.mcp.json`:
 | `get_profile` | Get user profile and credits |
 | `get_credits` | Get credit balance |
 | `get_billing` | Get billing information |
+| `get_subscription` | Get Stripe subscription details |
+| `list_invoices` | List Stripe invoices |
+
+### Analytics & Usage
+
+| Tool | Description |
+|------|-------------|
+| `get_analytics` | Get credit usage over time (daily stats, max 90 days) |
+| `get_usage_stats` | Get usage statistics by type and model |
+| `list_conversations` | List chat sessions/conversations |
 
 ## Usage Examples
 
