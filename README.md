@@ -1,22 +1,54 @@
 # Influencer Flow MCP Server
 
-Control your AI characters, website agents, and subscriptions directly from Claude Code, Cursor, Cline, or any MCP-compatible client.
+Official MCP integration for Influencer Flow. Use it from Claude Code, Cursor, Cline, Windsurf, and any MCP-compatible client to manage AI Characters, Website Agents, Telegram onboarding, credits, and subscriptions.
 
-## What is this?
+Most customers do not need to install this repository. The standard path is:
 
-The Influencer Flow MCP Server exposes your Influencer Flow account as a set of tools you can use in AI coding assistants. Build automated workflows, manage bots via chat, or integrate with your own tooling—no API calls required.
+1. Open Influencer Flow Dashboard -> Settings -> API
+2. Copy the prebuilt MCP config for your client
+3. Paste it into your client config and connect
 
-**What you can do:**
-- Start and stop AI characters with chat commands
-- Check credits and subscription status instantly
-- Generate website agent embed codes
-- Set up Telegram bot sessions programmatically
+## What this package does
+
+- Exposes Influencer Flow operations as MCP tools.
+- Authenticates requests with your personal MCP token.
+- Supports direct remote MCP HTTP connection to `https://influencer-flow.com/mcp/`.
+- Also supports a local stdio wrapper (`npx @milos821/influencer-flow-mcp-server`) for custom setups.
+
+## Requirements
+
+- Node.js 18+
+- Influencer Flow account
+- MCP token from Dashboard: `Settings -> API Keys`
+
+## Authentication model
+
+You must send:
+
+`Authorization: Bearer <YOUR_MCP_TOKEN>`
 
 ## Quick Start
 
-### Option 1: Remote MCP (recommended)
+### Option A: Direct remote MCP (recommended)
 
-Add this to your `.mcp.json`:
+Use the hosted endpoint directly in your MCP client:
+
+`https://influencer-flow.com/mcp/`
+
+### Option B: Local wrapper MCP server
+
+```powershell
+npx -y @milos821/influencer-flow-mcp-server
+```
+
+This local server reads:
+
+- `INFLUENCER_FLOW_API_URL` (default: `https://influencer-flow.com`)
+- `INFLUENCER_FLOW_AUTH_TOKEN` (required)
+
+## Client configuration examples
+
+### Claude Code (`.mcp.json`)
 
 ```json
 {
@@ -32,60 +64,7 @@ Add this to your `.mcp.json`:
 }
 ```
 
-Get your token from **Dashboard → Settings → API Keys**.
-
-### Option 2: Local CLI
-
-```powershell
-npx -y @milos821/influencer-flow-mcp-server
-```
-
-Set these environment variables:
-- `INFLUENCER_FLOW_API_URL` — API base URL (default: `https://influencer-flow.com`)
-- `INFLUENCER_FLOW_AUTH_TOKEN` — Your MCP token
-
-## Available Tools
-
-### AI Characters
-
-| Tool | Description |
-|------|-------------|
-| `list_ai_characters` | List all your AI characters |
-| `get_ai_character` | Get details for a specific character |
-| `create_ai_character` | Create a new AI character |
-| `update_ai_character` | Update character settings |
-| `delete_ai_character` | Delete a character |
-| `start_ai_character` | Start a running character |
-| `stop_ai_character` | Stop a running character |
-| `get_ai_character_status` | Check if a character is running |
-
-### Website Agents
-
-| Tool | Description |
-|------|-------------|
-| `list_website_agents` | List website agent configs |
-| `create_website_agent` | Create a new website agent |
-| `get_website_agent_embed_code` | Get the embed script for a website agent |
-
-### Profile & Billing
-
-| Tool | Description |
-|------|-------------|
-| `get_profile` | Get your account profile |
-| `get_credits` | Check your credit balance |
-| `get_billing` | Get subscription and invoice info |
-| `get_subscription_plans` | List available subscription plans |
-
-### Telegram
-
-| Tool | Description |
-|------|-------------|
-| `send_telegram_code` | Send verification code to a phone number |
-| `verify_telegram_code` | Verify code and create Telegram session |
-
-## Client Configuration
-
-### Claude Code
+### Cursor (`~/.cursor/mcp.json`)
 
 ```json
 {
@@ -94,18 +73,14 @@ Set these environment variables:
       "type": "http",
       "url": "https://influencer-flow.com/mcp/",
       "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
+        "Authorization": "Bearer YOUR_MCP_TOKEN"
       }
     }
   }
 }
 ```
 
-### Cursor
-
-Same config as Claude Code. Add to `~/.cursor/mcp.json`.
-
-### Cline / Windsurf
+### Cline / Windsurf (remote server)
 
 ```json
 {
@@ -114,14 +89,21 @@ Same config as Claude Code. Add to `~/.cursor/mcp.json`.
       "type": "http",
       "url": "https://influencer-flow.com/mcp/",
       "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
+        "Authorization": "Bearer YOUR_MCP_TOKEN"
       }
     }
   }
 }
 ```
 
-### Local stdio (any client)
+### OpenClaw
+
+If your OpenClaw build supports MCP JSON configs, use the same remote HTTP config as above.
+
+If your build is ACP-only, use OpenClaw ACP bridge mode (`openclaw acp`) and follow:
+https://docs.openclaw.ai/cli/acp
+
+### Any stdio-capable client (local wrapper)
 
 ```json
 {
@@ -131,35 +113,40 @@ Same config as Claude Code. Add to `~/.cursor/mcp.json`.
       "args": ["-y", "@milos821/influencer-flow-mcp-server"],
       "env": {
         "INFLUENCER_FLOW_API_URL": "https://influencer-flow.com",
-        "INFLUENCER_FLOW_AUTH_TOKEN": "YOUR_TOKEN"
+        "INFLUENCER_FLOW_AUTH_TOKEN": "YOUR_MCP_TOKEN"
       }
     }
   }
 }
 ```
 
-## Requirements
+## Available tools
 
-- Node.js 18+
-- Influencer Flow account
-- MCP token (get from Dashboard → Settings → API Keys)
+### AI Character management
 
-## Troubleshooting
+- `list_ai_characters`
+- `get_ai_character`
+- `create_ai_character`
+- `update_ai_character`
+- `delete_ai_character`
+- `start_ai_character`
+- `stop_ai_character`
+- `get_ai_character_status`
 
-**`401 Missing or invalid Authorization header`**
-- Ensure `headers.Authorization` is set in your config
-- Value must be exactly `Bearer <your_token>`
+### Website Agent management
 
-**`401 Invalid or expired token`**
-- Regenerate your token in Dashboard → Settings → API Keys
+- `list_website_agents`
+- `create_website_agent`
+- `get_website_agent_embed_code`
 
-**Server doesn't start**
-- Verify Node 18+
-- Run `npm run build` and check for errors
+### Profile, credits, subscriptions, Telegram
 
-**`Unexpected token '<', "<!doctype"...`**
-- You're hitting the website, not the MCP endpoint
-- Use `/mcp/` path in your URL
+- `get_profile`
+- `get_credits`
+- `get_billing`
+- `get_subscription_plans`
+- `send_telegram_code`
+- `verify_telegram_code`
 
 ## Development
 
@@ -168,6 +155,20 @@ npm install
 npm run build
 npm run dev
 ```
+
+## Troubleshooting
+
+- `401 Missing or invalid Authorization header`:
+  - Add `headers.Authorization` in MCP client config.
+  - Ensure value is exactly `Bearer <token>`.
+- `401 Invalid or expired token`:
+  - Regenerate token in Dashboard `Settings -> API Keys`.
+- Server does not start:
+  - Ensure Node 18+.
+  - Run `npm run build` locally and fix reported errors.
+- `Unexpected token '<', "<!doctype"...`:
+  - You are hitting a website page instead of the MCP endpoint.
+  - Use `/mcp/` endpoint URL in your config, not the root domain.
 
 ## License
 
